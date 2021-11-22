@@ -12,3 +12,7 @@ sycl::event benchmark_ff_p_t_addition(sycl::queue &q, const uint32_t dim,
 sycl::event benchmark_ff_p_t_subtraction(sycl::queue &q, const uint32_t dim,
                                          const uint32_t wg_size,
                                          const uint32_t itr_count);
+
+sycl::event benchmark_ff_p_t_multiplication(sycl::queue &q, const uint32_t dim,
+                                            const uint32_t wg_size,
+                                            const uint32_t itr_count);
