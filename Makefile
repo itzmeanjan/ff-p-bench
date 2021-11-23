@@ -5,16 +5,16 @@ INCLUDES = -I./include
 PROG = run
 DFLAGS = -D$(shell echo $(or $(DEVICE),default) | tr a-z A-Z)
 
-$(PROG): main.o utils.o bench_ctbn.o
+$(PROG): main.o utils.o bench_p64_ctbn.o
 	$(CXX) $(SYCLFLAGS) $^ -o $@
 
-main.o: main.cpp include/bench_ctbn.hpp include/types.hpp
+main.o: main.cpp include/bench_p64_ctbn.hpp include/types.hpp
 	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(DFLAGS) -c $^ $(INCLUDES)
 
 utils.o: utils.cpp include/utils.hpp
 	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(DFLAGS) -c $^ $(INCLUDES)
 
-bench_ctbn.o: bench_ctbn.cpp
+bench_p64_ctbn.o: bench_p64_ctbn.cpp
 	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(DFLAGS) -c $^ $(INCLUDES)
 
 clean:
