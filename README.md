@@ -50,9 +50,9 @@ sudo apt-get install libstdc++-10-dev
 
 ```bash
 cd ~
-git clone https://github.com/niekbouman/ctbignum.git
-
+git clone https://github.com/itzmeanjan/ctbignum.git
 pushd ctbignum
+git checkout e8fdb0d6f7d304fb1eed2029078d3f653c4f67db # **important**
 sudo cp -r include/ctbignum /usr/local/include
 popd
 ```
@@ -109,4 +109,4 @@ For running benchmark in data parallel environment, I make use of 2D grid struct
 ### On CPU/ OpenCL
 
 - [64-bit Prime Field](benchmarks/64-bit-on-cpu.md)
-- [256-bit Prime Field]()
+- [256-bit Prime Field](benchmarks/256-bit-on-cpu.md)
