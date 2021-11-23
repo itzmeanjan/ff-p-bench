@@ -1,3 +1,4 @@
+#include <bench_p256_ctbn.hpp>
 #include <bench_p64_ctbn.hpp>
 #include <types.hpp>
 #include <utils.hpp>
@@ -17,15 +18,17 @@ int main(int argc, char **argv) {
 #endif
 
   sycl::queue q{d};
-  std::cout << "running on " << d.get_info<sycl::info::device::name>() << "\n"
+  std::cout << "Benchmark running on " << d.get_info<sycl::info::device::name>() << "\n"
             << std::endl;
+
+  // here starts 64-bit prime field benchmarks
 
   std::cout << "Addition on F(2^64 - 2^32 + 1)\n" << std::endl;
   std::cout << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
@@ -45,8 +48,8 @@ int main(int argc, char **argv) {
             << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
@@ -66,8 +69,8 @@ int main(int argc, char **argv) {
             << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
@@ -87,8 +90,8 @@ int main(int argc, char **argv) {
             << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
@@ -108,8 +111,8 @@ int main(int argc, char **argv) {
             << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
@@ -129,13 +132,164 @@ int main(int argc, char **argv) {
             << std::setw(11) << "dimension"
             << "\t\t" << std::setw(10) << "iterations"
             << "\t\t" << std::setw(15) << "total"
-            << "\t\t" << std::setw(20) << "avg"
-            << "\t\t" << std::setw(24) << "ops/ sec" << std::endl;
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
   for (uint64_t i = 7; i <= 13; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
     benchmark_ff_p64_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  // now starts 256-bit prime field benchmarks
+
+  std::cout << "\nAddition on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)\n"
+            << std::endl;
+  std::cout << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_addition(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  std::cout << "\nSubtraction on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)"
+            << std::endl;
+  std::cout << "\n"
+            << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_subtraction(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  std::cout << "\nMultiplication on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)"
+            << std::endl;
+  std::cout << "\n"
+            << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_multiplication(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  std::cout << "\nDivision on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)"
+            << std::endl;
+  std::cout << "\n"
+            << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_division(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  std::cout << "\nInversion on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)"
+            << std::endl;
+  std::cout << "\n"
+            << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_inversion(q, dim, WG_SIZE, ITR_COUNT).wait();
+    tp end = std::chrono::system_clock::now();
+
+    int64_t tm =
+        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
+            .count();
+    double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
+    print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
+  }
+
+  std::cout << "\nExponentiation on "
+               "F("
+               "218882428718392752222464057452572750885483644004160343436982041"
+               "86575808495617)"
+            << std::endl;
+  std::cout << "\n"
+            << std::setw(11) << "dimension"
+            << "\t\t" << std::setw(10) << "iterations"
+            << "\t\t" << std::setw(15) << "total"
+            << "\t\t" << std::setw(24) << "per op"
+            << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
+
+  for (uint64_t i = 7; i <= 13; i++) {
+    uint64_t dim = 1ul << i;
+    tp start = std::chrono::system_clock::now();
+    benchmark_ff_p256_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
