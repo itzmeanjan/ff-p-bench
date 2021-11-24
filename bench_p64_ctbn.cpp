@@ -16,12 +16,11 @@ sycl::event benchmark_ff_p64_t_addition(sycl::queue &q, const uint32_t dim,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op1(2147483648_ZL);
-          ff_p64_t op2(576460752303423488_ZL);
+          ff_p64_t op(2147483648_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += (op1 + op2);
+            tmp += op;
           }
 
           // every work item writes back to local memory
@@ -46,12 +45,11 @@ sycl::event benchmark_ff_p64_t_subtraction(sycl::queue &q, const uint32_t dim,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op1(2147483648_ZL);
-          ff_p64_t op2(576460752303423488_ZL);
+          ff_p64_t op(2147483648_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += (op1 - op2);
+            tmp -= op;
           }
 
           // every work item writes back to local memory
@@ -77,12 +75,11 @@ sycl::event benchmark_ff_p64_t_multiplication(sycl::queue &q,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op1(2147483648_ZL);
-          ff_p64_t op2(576460752303423488_ZL);
+          ff_p64_t op(2147483648_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += (op1 * op2);
+            tmp *= op;
           }
 
           // every work item writes back to local memory
@@ -107,12 +104,11 @@ sycl::event benchmark_ff_p64_t_division(sycl::queue &q, const uint32_t dim,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op1(2147483648_ZL);
-          ff_p64_t op2(576460752303423488_ZL);
+          ff_p64_t op(2147483648_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += (op1 / op2);
+            tmp /= op;
           }
 
           // every work item writes back to local memory
@@ -137,11 +133,10 @@ sycl::event benchmark_ff_p64_t_inversion(sycl::queue &q, const uint32_t dim,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op(576460752303423488_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += static_cast<ff_p64_t>(cbn::mod_inv(op.data, mod_p64_bn));
+            tmp = static_cast<ff_p64_t>(cbn::mod_inv(tmp.data, mod_p64_bn));
           }
 
           // every work item writes back to local memory
@@ -167,13 +162,12 @@ sycl::event benchmark_ff_p64_t_exponentiation(sycl::queue &q,
         [=](sycl::nd_item<2> it) {
           const size_t loc_lid = it.get_local_linear_id();
 
-          ff_p64_t op1(2147483648_ZL);
-          ff_p64_t op2(576460752303423488_ZL);
+          ff_p64_t op(2147483648_ZL);
+          ff_p64_t tmp(576460752303423488_ZL);
 
-          ff_p64_t tmp(0_ZL);
           for (uint64_t i = 0ul; i < itr_count; i++) {
-            tmp += static_cast<ff_p64_t>(
-                cbn::mod_exp(op1.data, op2.data, mod_p64_bn));
+            tmp = static_cast<ff_p64_t>(
+                cbn::mod_exp(op.data, tmp.data, mod_p64_bn));
           }
 
           // every work item writes back to local memory
