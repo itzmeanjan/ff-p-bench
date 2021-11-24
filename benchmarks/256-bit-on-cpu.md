@@ -1,87 +1,47 @@
 ## 256-bit Prime Field Arithmetic Benchmark on CPU with OpenCL Backend
 
 ```bash
-$ DEVICE=cpu make && ./run
-
-Benchmark running on Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz
+$ DEVICE=cpu make aot_cpu && ./a.out
 ```
 
-### Modular Addition
-
 ```bash
+Benchmark running on Intel(R) Xeon(R) CPU E5-2686 v4 @ 2.30GHz
+
+
 Addition on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                     1912732319 ns                      114.008 ns                         8.77134e+06
-256  x  256                 1024                         118083 ns                   0.00175957 ns                         5.68319e+11
-512  x  512                 1024                          89369 ns                  0.000332925 ns                         3.00368e+12
-1024 x 1024                 1024                         194543 ns                  0.000181182 ns                          5.5193e+12
-2048 x 2048                 1024                         316000 ns                  7.35745e-05 ns                         1.35917e+13
-4096 x 4096                 1024                        1006424 ns                  5.85816e-05 ns                         1.70702e+13
-8192 x 8192                 1024                        3769686 ns                  5.48562e-05 ns                         1.82295e+13
-```
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		       18040546 ns		         1.0753 ns		           9.29973e+08
+256  x  256		    1024		        9909792 ns		       0.147667 ns		           6.77198e+09
+512  x  512		    1024		       37600646 ns		       0.140073 ns		           7.13912e+09
 
-### Modular Subtraction
-
-```bash
 Subtraction on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                        6616948 ns                     0.394401 ns                         2.53549e+09
-256  x  256                 1024                         132497 ns                   0.00197436 ns                         5.06493e+11
-512  x  512                 1024                          77403 ns                  0.000288349 ns                         3.46802e+12
-1024 x 1024                 1024                         125533 ns                  0.000116912 ns                         8.55346e+12
-2048 x 2048                 1024                         308147 ns                  7.17461e-05 ns                          1.3938e+13
-4096 x 4096                 1024                        1022360 ns                  5.95092e-05 ns                         1.68041e+13
-8192 x 8192                 1024                        3557968 ns                  5.17752e-05 ns                         1.93142e+13
-```
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		       10527422 ns		       0.627483 ns		           1.59367e+09
+256  x  256		    1024		       14405879 ns		       0.214664 ns		           4.65844e+09
+512  x  512		    1024		       55797658 ns		       0.207862 ns		           4.81087e+09
 
-### Modular Multiplication
-
-```bash
 Multiplication on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                       25338005 ns                      1.51026 ns                         6.62136e+08
-256  x  256                 1024                       74942737 ns                      1.11673 ns                         8.95469e+08
-512  x  512                 1024                      300629770 ns                      1.11993 ns                          8.9291e+08
-1024 x 1024                 1024                     1202297997 ns                      1.11973 ns                         8.93075e+08
-```
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		     2919444061 ns		        174.012 ns		           5.74672e+06
+256  x  256		    1024		    11655611708 ns		        173.682 ns		           5.75764e+06
+512  x  512		    1024		    46570145543 ns		        173.487 ns		           5.76411e+06
 
-### Modular Division
-
-```bash
 Division on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                     1053474003 ns                      62.7919 ns                         1.59256e+07
-256  x  256                 1024                     4126506299 ns                      61.4897 ns                         1.62629e+07
-512  x  512                 1024                    16738318449 ns                      62.3551 ns                         1.60372e+07
-1024 x 1024                 1024                    66745390277 ns                      62.1615 ns                         1.60871e+07
-```
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		     7472763329 ns		        445.411 ns		           2.24512e+06
+256  x  256		    1024		    29836573999 ns		          444.6 ns		           2.24921e+06
 
-
-### Modular Inversion
-
-
-```bash
 Inversion on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                       13027948 ns                     0.776526 ns                         1.28779e+09
-256  x  256                 1024                         153410 ns                   0.00228599 ns                         4.37448e+11
-512  x  512                 1024                          89324 ns                  0.000332758 ns                         3.00519e+12
-1024 x 1024                 1024                         128696 ns                  0.000119857 ns                         8.34324e+12
-```
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		   109133477527 ns		        6504.86 ns		                153731
 
-### Modular Exponentiation
-
-```bash
 Exponentiation on F(21888242871839275222246405745257275088548364400416034343698204186575808495617)
 
-  dimension             iterations                        total                           per op                            ops/ sec
-128  x  128                 1024                     1800512446 ns                      107.319 ns                         9.31802e+06
-256  x  256                 1024                     7172799622 ns                      106.883 ns                         9.35602e+06
-512  x  512                 1024                    28696012424 ns                      106.901 ns                         9.35445e+06
-1024 x 1024                 1024                   114698366697 ns                      106.821 ns                         9.36144e+06
+  dimension		iterations		          total		                  per op		            ops/ sec
+128  x  128		    1024		   198507991247 ns		          11832 ns		               84516.6
 ```

@@ -10,14 +10,12 @@ With this setup, I write benchmark code for two prime fields, while offloading p
 
 These are two prime fields, I'm benchmarking on. These two prime fields are particularly of my interest, which is why I choose them.
 
-- F(2^64 - 2^32 + 1) --- **64-bit Prime Field**
+- F(18446744069414584321) --- **64-bit Prime Field**
 - F(21888242871839275222246405745257275088548364400416034343698204186575808495617) --- **256-bit Prime Field**
 
 > Note: For compiling `ctbignum` down to GPU digestable **SPIRV-64** code, I had to make small modification in `ctbignum`. If interested, read [more](https://github.com/niekbouman/ctbignum/pull/48).
 
 ## Setup
-
-Instead of telling how to set it up, I'll tell you about my current development machine.
 
 - I'm on
 
@@ -51,6 +49,7 @@ sudo apt-get install libstdc++-10-dev
 ```bash
 cd ~
 git clone https://github.com/itzmeanjan/ctbignum.git
+
 pushd ctbignum
 git checkout e8fdb0d6f7d304fb1eed2029078d3f653c4f67db # **important**
 sudo cp -r include/ctbignum /usr/local/include
@@ -100,11 +99,17 @@ DEVICE=host make && ./run       # target host, *always* available
 DEVICE=default make && ./run    # no need to mention device here, it's default case
 ```
 
-> All kernels are JIT compiled, for AOT try taking a look [here](https://www.intel.com/content/www/us/en/develop/documentation/oneapi-dpcpp-cpp-compiler-dev-guide-and-reference/top/compilation/ahead-of-time-compilation.html). Example make file is [here](https://github.com/itzmeanjan/ff-gpu/blob/1f9206ec624214674c21b7940efdb91cd3d16cd9/Makefile#L83-L105).
+> All above kernels are JIT compiled, for AOT try taking a look [here](https://www.intel.com/content/www/us/en/develop/documentation/oneapi-dpcpp-cpp-compiler-dev-guide-and-reference/top/compilation/ahead-of-time-compilation.html).
+
+- I've added build recipe for AOT compiling all benchmark kernels, targeting CPU, using `avx*`/ `sse4.2` instructions
+
+```bash
+DEVICE=cpu make aot_cpu
+```
 
 ## Benchmark
 
-For running benchmark in data parallel environment, I make use of 2D grid structure, where each cell of square matrix of dimension *N x N*, is one work-item. Each work-item computes some specific field arithmetic operation on given operands, M-many times. So in each round of benchmarking, when some specific arithmetic operator is chosen, for prime field **F_p**, N x N x M times that operation is run in parallel, *well actually concurrently* on chosen accelerator device. These benchmarks don't include any (host-to-device and vice-versa) data transfer. All field elements are stored in registers, if not spilled.
+For running benchmark in data parallel environment, I make use of 2D grid structure, where each cell of square matrix of dimension *N x N*, is one work-item. Each work-item computes some specific field arithmetic operation on given operands, M-many times. So in each round of benchmarking, when some specific arithmetic operator is chosen, for prime field **F_p**, N x N x M times that operation is run in parallel, *well actually concurrently* on chosen accelerator device. These benchmarks don't include any (host-to-device and vice-versa) data transfer. All field elements are stored in registers, if not spilled. As suggested/ corrected by @niekbauman, I've modified kernels to make use of local memory and write some data back to local memory at end of work-item's computation, so that compiler doesn't end up optimizing too much that kernel actually doesn't do its desired job and I collect wrong metrics.
 
 ### On CPU/ OpenCL
 
