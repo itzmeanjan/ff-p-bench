@@ -1,4 +1,4 @@
-## 256-bit Prime Field Arithmetic Benchmark on CPU with OpenCL Backend
+## 254-bit Prime Field Arithmetic Benchmark on CPU with OpenCL Backend
 
 ```bash
 $ DEVICE=cpu make aot_cpu && ./a.out

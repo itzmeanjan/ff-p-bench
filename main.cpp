@@ -1,4 +1,4 @@
-#include <bench_p256_ctbn.hpp>
+#include <bench_p254_ctbn.hpp>
 #include <bench_p64_ctbn.hpp>
 #include <types.hpp>
 #include <utils.hpp>
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
 
-  // now starts 256-bit prime field benchmarks
+  // now starts 254-bit prime field benchmarks
 
   std::cout << "\nAddition on "
                "F("
@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_addition(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_addition(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
@@ -190,7 +190,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_subtraction(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_subtraction(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_multiplication(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_multiplication(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
@@ -240,7 +240,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_division(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_division(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
@@ -265,7 +265,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_inversion(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_inversion(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
@@ -290,7 +290,7 @@ int main(int argc, char **argv) {
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
     tp start = std::chrono::system_clock::now();
-    benchmark_ff_p256_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
+    benchmark_ff_p254_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =

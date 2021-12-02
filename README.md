@@ -11,7 +11,7 @@ With this setup, I write benchmark code for two prime fields, while offloading p
 These are two prime fields, I'm benchmarking on. These two prime fields are particularly of my interest, which is why I choose them.
 
 - F(18446744069414584321) --- **64-bit Prime Field**
-- F(21888242871839275222246405745257275088548364400416034343698204186575808495617) --- **256-bit Prime Field**
+- F(21888242871839275222246405745257275088548364400416034343698204186575808495617) --- **254-bit Prime Field**
 
 > Note: For compiling `ctbignum` down to GPU digestable **SPIRV-64** code, I had to make small modification in `ctbignum`. If interested, read [more](https://github.com/niekbouman/ctbignum/pull/48).
 
@@ -25,17 +25,17 @@ $ lsb_release -d
 Description:    Ubuntu 20.04.3 LTS
 ```
 
-- I've installed Intel DPC++ compiler from [here](https://www.intel.com/content/www/us/en/developer/tools/oneapi/base-toolkit-download.html)
+- I've compiled Intel DPC++ compiler from source, with CUDA support, while following guide [here](https://intel.github.io/llvm-docs/GetStartedGuide.html#prerequisites)
 
 - Compiler version is
 
 ```bash
-$ dpcpp --version
+$ clang++ --version
 
-Intel(R) oneAPI DPC++/C++ Compiler 2021.4.0 (2021.4.0.20210924)
+clang version 14.0.0 (https://github.com/intel/llvm 9ca7ceac3bfe24444209f56567ca50e51dd9e5cf)
 Target: x86_64-unknown-linux-gnu
 Thread model: posix
-InstalledDir: /opt/intel/oneapi/compiler/2021.4.0/linux/bin
+InstalledDir: /home/ubuntu/sycl_workspace/llvm/build/bin
 ```
 
 - I've `libstdc++-10` installed so that I can use C++20 features
@@ -56,13 +56,7 @@ sudo cp -r include/ctbignum /usr/local/include
 popd
 ```
 
-- If you don't have enough permissions to copy to `/usr/local/include/`, update make file to have path to following directory, in **INCLUDES** variable
-
-```bash
-realpath ~/ctbignum/include/
-```
-
-- Also you'll need `make` and standard system developtool tools.
+- Also you'll need `make` and standard system development tools.
 
 ## Usage
 
@@ -114,4 +108,9 @@ For running benchmark in data parallel environment, I make use of 2D grid struct
 ### On CPU/ OpenCL
 
 - [64-bit Prime Field](benchmarks/64-bit-on-cpu.md)
-- [256-bit Prime Field](benchmarks/256-bit-on-cpu.md)
+- [254-bit Prime Field](benchmarks/254-bit-on-cpu.md)
+
+### On GPU/ CUDA
+
+- [64-bit Prime Field](benchmarks/64-bit-on-gpu.md)
+- [254-bit Prime Field](benchmarks/254-bit-on-gpu.md)
