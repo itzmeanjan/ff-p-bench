@@ -1,6 +1,7 @@
-CXX = dpcpp
+CXX = clang++
 CXXFLAGS = -std=c++20 -Wall
 SYCLFLAGS = -fsycl
+SYCLCUDAFLAGS = -fsycl-targets=nvptx64-nvidia-cuda
 SYCLAOTFLAGS = -fsycl-default-sub-group-size 32
 INCLUDES = -I./include
 PROG = run
@@ -45,3 +46,12 @@ aot_cpu:
 	else \
 		echo "Can't AOT compile using avx, avx2, avx512 or sse4.2"; \
 	fi
+
+cuda:
+	# make sure you've built `clang++` with CUDA support
+	# check https://intel.github.io/llvm-docs/GetStartedGuide.html#build-dpc-toolchain-with-support-for-nvidia-cuda
+	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(SYCLCUDAFLAGS) $(DFLAGS) -c main.cpp $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(SYCLCUDAFLAGS) $(DFLAGS) -c utils.cpp $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(SYCLCUDAFLAGS) $(DFLAGS) -c bench_p64_ctbn.cpp $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(SYCLCUDAFLAGS) $(DFLAGS) -c bench_p256_ctbn.cpp $(INCLUDES)
+	$(CXX) $(SYCLFLAGS) *.o -o $(PROG)
