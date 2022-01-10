@@ -19,7 +19,8 @@ main(int argc, char** argv)
   sycl::device d{ sycl::default_selector{} };
 #endif
 
-  sycl::queue q{ d };
+  // enabling queue profiling required for event based kernel execution timing
+  sycl::queue q{ d, sycl::property::queue::enable_profiling{} };
   std::cout << "Benchmark running on " << d.get_info<sycl::info::device::name>()
             << "\n"
             << std::endl;
@@ -35,12 +36,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_addition(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p64_t_addition(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -55,12 +55,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_subtraction(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p64_t_subtraction(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -75,12 +75,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_multiplication(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p64_t_multiplication(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -95,12 +95,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_division(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p64_t_division(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -115,12 +114,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_inversion(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p64_t_inversion(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -135,12 +133,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p64_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p64_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -160,12 +158,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_addition(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p254_t_addition(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -184,12 +181,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_subtraction(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p254_t_subtraction(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -208,12 +205,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_multiplication(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p254_t_multiplication(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -232,12 +229,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_division(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p254_t_division(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -256,12 +252,11 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_inversion(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt = benchmark_ff_p254_t_inversion(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -280,12 +275,12 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
-    tp start = std::chrono::system_clock::now();
-    benchmark_ff_p254_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT).wait();
-    tp end = std::chrono::system_clock::now();
 
-    int64_t tm =
-      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    sycl::event evt =
+      benchmark_ff_p254_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT);
+    evt.wait();
+
+    sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }

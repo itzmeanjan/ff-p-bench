@@ -6,10 +6,10 @@
 // Prints a row of benchmark table; as shown
 // https://github.com/itzmeanjan/ff_p_bench/blob/61838f7/benchmarks/254-bit-on-gpu.md#L32
 void
-print_benchmark_table_row(const uint64_t dim,
-                          const uint64_t itr_cnt,
-                          const int64_t total_tm,
-                          const double tm_per_op)
+print_benchmark_table_row(uint64_t dim,
+                          uint64_t itr_cnt,
+                          sycl::cl_ulong total_tm,
+                          double tm_per_op)
 {
   std::cout << std::setw(5) << std::left << dim << "x" << std::setw(5)
             << std::right << dim << "\t\t" << std::setw(8) << std::right
