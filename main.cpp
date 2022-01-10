@@ -1,7 +1,14 @@
 #include <bench_p254_ctbn.hpp>
 #include <bench_p64_ctbn.hpp>
-#include <types.hpp>
 #include <utils.hpp>
+
+#if ON_THE_FLY == 0
+#pragma message(                                                               \
+  "Compiling kernels such that pre-computed big integer operands are used inside benchmark kernel !")
+#else
+#pragma message(                                                               \
+  "Compiling kernels such that big integer operands are all computed on-the-fly !")
+#endif
 
 constexpr uint64_t ITR_COUNT = 1ul << 10;
 constexpr uint64_t WG_SIZE = 1ul << 6;
