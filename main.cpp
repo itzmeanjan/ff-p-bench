@@ -6,18 +6,20 @@
 constexpr uint64_t ITR_COUNT = 1ul << 10;
 constexpr uint64_t WG_SIZE = 1ul << 7;
 
-int main(int argc, char **argv) {
+int
+main(int argc, char** argv)
+{
 #if defined CPU
-  sycl::device d{sycl::cpu_selector{}};
+  sycl::device d{ sycl::cpu_selector{} };
 #elif defined GPU
-  sycl::device d{sycl::gpu_selector{}};
+  sycl::device d{ sycl::gpu_selector{} };
 #elif defined HOST
-  sycl::device d{sycl::host_selector{}};
+  sycl::device d{ sycl::host_selector{} };
 #else
-  sycl::device d{sycl::default_selector{}};
+  sycl::device d{ sycl::default_selector{} };
 #endif
 
-  sycl::queue q{d};
+  sycl::queue q{ d };
   std::cout << "Benchmark running on " << d.get_info<sycl::info::device::name>()
             << "\n"
             << std::endl;
@@ -38,8 +40,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -59,8 +60,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -80,8 +80,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -101,8 +100,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -122,8 +120,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -143,8 +140,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -169,8 +165,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -194,8 +189,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -219,8 +213,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -244,8 +237,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -269,8 +261,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
@@ -294,8 +285,7 @@ int main(int argc, char **argv) {
     tp end = std::chrono::system_clock::now();
 
     int64_t tm =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)
-            .count();
+      std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
     print_benchmark_table_row(dim, ITR_COUNT, tm, tm_per_op);
   }
