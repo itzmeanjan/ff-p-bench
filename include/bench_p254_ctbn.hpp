@@ -24,6 +24,14 @@ benchmark_ff_p254_t_addition(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(
+          3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp += ff_p254_t(70368744177664ul * i);
+        }
+#else
         ff_p254_t op(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(
@@ -32,6 +40,7 @@ benchmark_ff_p254_t_addition(sycl::queue& q,
         for (uint64_t i = 0ul; i < itr_count; i++) {
           tmp += op;
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
@@ -56,6 +65,14 @@ benchmark_ff_p254_t_subtraction(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(
+          3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp -= ff_p254_t(70368744177664ul * i);
+        }
+#else
         ff_p254_t op(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(
@@ -64,6 +81,7 @@ benchmark_ff_p254_t_subtraction(sycl::queue& q,
         for (uint64_t i = 0ul; i < itr_count; i++) {
           tmp -= op;
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
@@ -88,6 +106,14 @@ benchmark_ff_p254_t_multiplication(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(
+          3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp *= ff_p254_t(70368744177664ul * i);
+        }
+#else
         ff_p254_t op(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(
@@ -96,6 +122,7 @@ benchmark_ff_p254_t_multiplication(sycl::queue& q,
         for (uint64_t i = 0ul; i < itr_count; i++) {
           tmp *= op;
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
@@ -120,6 +147,14 @@ benchmark_ff_p254_t_division(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(
+          3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp /= ff_p254_t(70368744177664ul * i);
+        }
+#else
         ff_p254_t op(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(
@@ -128,6 +163,7 @@ benchmark_ff_p254_t_division(sycl::queue& q,
         for (uint64_t i = 0ul; i < itr_count; i++) {
           tmp /= op;
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
@@ -152,12 +188,21 @@ benchmark_ff_p254_t_inversion(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(0_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp += static_cast<ff_p254_t>(
+            cbn::mod_inv(ff_p254_t(70368744177664ul * i).data, mod_p254_bn));
+        }
+#else
         ff_p254_t tmp(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
 
         for (uint64_t i = 0ul; i < itr_count; i++) {
           tmp = static_cast<ff_p254_t>(cbn::mod_inv(tmp.data, mod_p254_bn));
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
@@ -182,6 +227,18 @@ benchmark_ff_p254_t_exponentiation(sycl::queue& q,
       [=](sycl::nd_item<2> it) {
         const size_t idx = it.get_global_linear_id();
 
+#if ON_THE_FLY != 0
+        ff_p254_t tmp(0_ZL);
+
+        for (uint64_t i = 0ul; i < itr_count; i++) {
+          tmp += static_cast<ff_p254_t>(cbn::mod_exp(
+            ff_p254_t(
+              3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL)
+              .data,
+            ff_p254_t(70368744177664ul * (i + 1)).data,
+            mod_p254_bn));
+        }
+#else
         ff_p254_t op(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(70368744177664_ZL);
@@ -190,6 +247,7 @@ benchmark_ff_p254_t_exponentiation(sycl::queue& q,
           tmp = static_cast<ff_p254_t>(
             cbn::mod_exp(op.data, tmp.data, mod_p254_bn));
         }
+#endif
 
         // every work item writes back to global memory
         // just to ensure kernel is not too much optimized by
