@@ -9,6 +9,7 @@ DFLAGS = -D$(shell echo $(or $(DEVICE),default) | tr a-z A-Z)
 
 $(PROG): main.cpp include/bench_p64_ctbn.hpp include/bench_p254_ctbn.hpp include/types.hpp include/utils.hpp
 	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(DFLAGS) $(INCLUDES) $< -o $@
+	./$@
 
 clean:
 	find . -name '*.o' -o -name 'run' -o -name 'a.out' -o -name '*.gch' -o -name 'test' -o  -name '__pycache__' | xargs rm -rf
@@ -32,8 +33,10 @@ aot_cpu:
 	else \
 		echo "Can't AOT compile using avx, avx2, avx512 or sse4.2"; \
 	fi
+	./$(PROG)
 
 cuda:
 	# make sure you've built `clang++` with CUDA support
 	# check https://intel.github.io/llvm-docs/GetStartedGuide.html#build-dpc-toolchain-with-support-for-nvidia-cuda
 	clang++ $(CXXFLAGS) $(SYCLFLAGS) $(SYCLCUDAFLAGS) $(DFLAGS) $(INCLUDES) main.cpp -o $(PROG)
+	./$(PROG)

@@ -4,7 +4,7 @@
 #include <utils.hpp>
 
 constexpr uint64_t ITR_COUNT = 1ul << 10;
-constexpr uint64_t WG_SIZE = 1ul << 7;
+constexpr uint64_t WG_SIZE = 1ul << 6;
 
 int
 main(int argc, char** argv)
@@ -36,9 +36,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
-    sycl::event evt = benchmark_ff_p64_t_addition(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p64_t_addition(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -55,10 +59,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
     sycl::event evt =
-      benchmark_ff_p64_t_subtraction(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p64_t_subtraction(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -75,10 +82,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
     sycl::event evt =
-      benchmark_ff_p64_t_multiplication(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p64_t_multiplication(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -95,9 +105,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
-    sycl::event evt = benchmark_ff_p64_t_division(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p64_t_division(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -114,9 +128,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
-    sycl::event evt = benchmark_ff_p64_t_inversion(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p64_t_inversion(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -133,10 +151,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p64_t* mem = static_cast<ff_p64_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
     sycl::event evt =
-      benchmark_ff_p64_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p64_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -158,9 +179,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
-    sycl::event evt = benchmark_ff_p254_t_addition(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p254_t_addition(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -181,10 +206,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
     sycl::event evt =
-      benchmark_ff_p254_t_subtraction(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p254_t_subtraction(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -205,10 +233,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
     sycl::event evt =
-      benchmark_ff_p254_t_multiplication(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p254_t_multiplication(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -229,9 +260,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
-    sycl::event evt = benchmark_ff_p254_t_division(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p254_t_division(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -252,9 +287,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
-    sycl::event evt = benchmark_ff_p254_t_inversion(q, dim, WG_SIZE, ITR_COUNT);
+    sycl::event evt =
+      benchmark_ff_p254_t_inversion(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
@@ -275,10 +314,13 @@ main(int argc, char** argv)
 
   for (uint64_t i = 7; i <= 10; i++) {
     uint64_t dim = 1ul << i;
+    ff_p254_t* mem = static_cast<ff_p254_t*>(
+      sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
     sycl::event evt =
-      benchmark_ff_p254_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT);
+      benchmark_ff_p254_t_exponentiation(q, dim, WG_SIZE, ITR_COUNT, mem);
     evt.wait();
+    sycl::free(mem, q);
 
     sycl::cl_ulong tm = time_event(evt);
     double tm_per_op = (double)tm / (double)(dim * dim * ITR_COUNT);
