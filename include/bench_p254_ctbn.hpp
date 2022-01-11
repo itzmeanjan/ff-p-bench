@@ -12,9 +12,9 @@ using ff_p254_t = decltype(cbn::Zq(mod_p254));
 
 sycl::event
 benchmark_ff_p254_t_addition(sycl::queue& q,
-                             uint32_t dim,
-                             uint32_t wg_size,
-                             uint32_t itr_count,
+                             size_t dim,
+                             size_t wg_size,
+                             size_t itr_count,
                              ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -28,8 +28,8 @@ benchmark_ff_p254_t_addition(sycl::queue& q,
         ff_p254_t tmp(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp += ff_p254_t(70368744177664ul * i);
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp += ff_p254_t(70368744177664ul * (i + 1) * (idx + 1));
         }
 #else
         ff_p254_t op(
@@ -37,7 +37,7 @@ benchmark_ff_p254_t_addition(sycl::queue& q,
         ff_p254_t tmp(
           904625697166532776746648320380374280103671755200316906558262375061821325304_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp += op;
         }
 #endif
@@ -53,9 +53,9 @@ benchmark_ff_p254_t_addition(sycl::queue& q,
 
 sycl::event
 benchmark_ff_p254_t_subtraction(sycl::queue& q,
-                                uint32_t dim,
-                                uint32_t wg_size,
-                                uint32_t itr_count,
+                                size_t dim,
+                                size_t wg_size,
+                                size_t itr_count,
                                 ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -69,8 +69,8 @@ benchmark_ff_p254_t_subtraction(sycl::queue& q,
         ff_p254_t tmp(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp -= ff_p254_t(70368744177664ul * i);
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp -= ff_p254_t(70368744177664ul * (i + 1) * (idx + 1));
         }
 #else
         ff_p254_t op(
@@ -78,7 +78,7 @@ benchmark_ff_p254_t_subtraction(sycl::queue& q,
         ff_p254_t tmp(
           904625697166532776746648320380374280103671755200316906558262375061821325304_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp -= op;
         }
 #endif
@@ -94,9 +94,9 @@ benchmark_ff_p254_t_subtraction(sycl::queue& q,
 
 sycl::event
 benchmark_ff_p254_t_multiplication(sycl::queue& q,
-                                   uint32_t dim,
-                                   uint32_t wg_size,
-                                   uint32_t itr_count,
+                                   size_t dim,
+                                   size_t wg_size,
+                                   size_t itr_count,
                                    ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -110,8 +110,8 @@ benchmark_ff_p254_t_multiplication(sycl::queue& q,
         ff_p254_t tmp(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp *= ff_p254_t(70368744177664ul * i);
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp *= ff_p254_t(70368744177664ul * (i + 1) * (idx + 1));
         }
 #else
         ff_p254_t op(
@@ -119,7 +119,7 @@ benchmark_ff_p254_t_multiplication(sycl::queue& q,
         ff_p254_t tmp(
           904625697166532776746648320380374280103671755200316906558262375061821325304_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp *= op;
         }
 #endif
@@ -135,9 +135,9 @@ benchmark_ff_p254_t_multiplication(sycl::queue& q,
 
 sycl::event
 benchmark_ff_p254_t_division(sycl::queue& q,
-                             uint32_t dim,
-                             uint32_t wg_size,
-                             uint32_t itr_count,
+                             size_t dim,
+                             size_t wg_size,
+                             size_t itr_count,
                              ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -151,8 +151,8 @@ benchmark_ff_p254_t_division(sycl::queue& q,
         ff_p254_t tmp(
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp /= ff_p254_t(70368744177664ul * i);
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp /= ff_p254_t(70368744177664ul * (i + 1) * (idx + 1));
         }
 #else
         ff_p254_t op(
@@ -160,7 +160,7 @@ benchmark_ff_p254_t_division(sycl::queue& q,
         ff_p254_t tmp(
           904625697166532776746648320380374280103671755200316906558262375061821325304_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp /= op;
         }
 #endif
@@ -176,9 +176,9 @@ benchmark_ff_p254_t_division(sycl::queue& q,
 
 sycl::event
 benchmark_ff_p254_t_inversion(sycl::queue& q,
-                              uint32_t dim,
-                              uint32_t wg_size,
-                              uint32_t itr_count,
+                              size_t dim,
+                              size_t wg_size,
+                              size_t itr_count,
                               ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -191,16 +191,16 @@ benchmark_ff_p254_t_inversion(sycl::queue& q,
 #if ON_THE_FLY != 0
         ff_p254_t tmp(0_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp += static_cast<ff_p254_t>(
-            cbn::mod_inv(ff_p254_t(70368744177664ul * i).data, mod_p254_bn));
+            cbn::mod_inv(ff_p254_t(70368744177664ul * (i + 1) * (idx + 1)).data,
+                         mod_p254_bn));
         }
 #else
-        ff_p254_t tmp(
-          3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
+        ff_p254_t tmp(70368744177664ul * idx);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp = static_cast<ff_p254_t>(cbn::mod_inv(tmp.data, mod_p254_bn));
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp += static_cast<ff_p254_t>(cbn::mod_inv(tmp.data, mod_p254_bn));
         }
 #endif
 
@@ -215,9 +215,9 @@ benchmark_ff_p254_t_inversion(sycl::queue& q,
 
 sycl::event
 benchmark_ff_p254_t_exponentiation(sycl::queue& q,
-                                   uint32_t dim,
-                                   uint32_t wg_size,
-                                   uint32_t itr_count,
+                                   size_t dim,
+                                   size_t wg_size,
+                                   size_t itr_count,
                                    ff_p254_t* const mem)
 {
   return q.submit([&](sycl::handler& h) {
@@ -230,12 +230,12 @@ benchmark_ff_p254_t_exponentiation(sycl::queue& q,
 #if ON_THE_FLY != 0
         ff_p254_t tmp(0_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
+        for (size_t i = 0ul; i < itr_count; i++) {
           tmp += static_cast<ff_p254_t>(cbn::mod_exp(
             ff_p254_t(
               3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL)
               .data,
-            ff_p254_t(70368744177664ul * (i + 1)).data,
+            ff_p254_t(70368744177664ul * (i + 1) * (idx + 1)).data,
             mod_p254_bn));
         }
 #else
@@ -243,8 +243,8 @@ benchmark_ff_p254_t_exponentiation(sycl::queue& q,
           3618502788666131106986593281521497120414687020801267626233049500247285301247_ZL);
         ff_p254_t tmp(70368744177664_ZL);
 
-        for (uint64_t i = 0ul; i < itr_count; i++) {
-          tmp = static_cast<ff_p254_t>(
+        for (size_t i = 0ul; i < itr_count; i++) {
+          tmp += static_cast<ff_p254_t>(
             cbn::mod_exp(op.data, tmp.data, mod_p254_bn));
         }
 #endif
