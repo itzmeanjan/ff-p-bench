@@ -20,7 +20,7 @@ benchmark_ff_p64_t_addition(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Addition>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
@@ -58,7 +58,7 @@ benchmark_ff_p64_t_subtraction(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Subtraction>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
@@ -96,7 +96,7 @@ benchmark_ff_p64_t_multiplication(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Multiplication>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
@@ -134,7 +134,7 @@ benchmark_ff_p64_t_division(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Division>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
@@ -172,7 +172,7 @@ benchmark_ff_p64_t_inversion(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Inversion>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
@@ -210,7 +210,7 @@ benchmark_ff_p64_t_exponentiation(sycl::queue& q,
     h.parallel_for<class kernelFF_p64_Exponentiation>(
       sycl::nd_range<2>{ sycl::range<2>{ dim, dim },
                          sycl::range<2>{ 1, wg_size } },
-      [=](sycl::nd_item<2> it) {
+      [=](sycl::nd_item<2> it) [[intel::reqd_sub_group_size(32)]] {
         const size_t idx = it.get_global_linear_id();
 
 #if ON_THE_FLY != 0
