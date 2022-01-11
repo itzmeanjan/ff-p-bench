@@ -10,8 +10,8 @@
   "Compiling kernels such that big integer operands are all computed on-the-fly !")
 #endif
 
-constexpr uint64_t ITR_COUNT = 1ul << 10;
-constexpr uint64_t WG_SIZE = 1ul << 6;
+constexpr size_t ITR_COUNT = 1ul << 10;
+constexpr size_t WG_SIZE = 1ul << 6;
 
 int
 main(int argc, char** argv)
@@ -26,7 +26,8 @@ main(int argc, char** argv)
   sycl::device d{ sycl::default_selector{} };
 #endif
 
-  // enabling queue profiling required for event based kernel execution timing
+  // enabling queue profiling required for SYCL event based kernel execution
+  // timing
   sycl::queue q{ d, sycl::property::queue::enable_profiling{} };
   std::cout << "Benchmark running on " << d.get_info<sycl::info::device::name>()
             << "\n"
@@ -41,8 +42,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -64,8 +65,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -87,8 +88,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -110,8 +111,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -133,8 +134,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -156,8 +157,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p64_t* mem = static_cast<ff_p64_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p64_t), q));
 
@@ -184,8 +185,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
@@ -211,8 +212,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
@@ -238,8 +239,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
@@ -265,8 +266,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
@@ -292,8 +293,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 
@@ -319,8 +320,8 @@ main(int argc, char** argv)
             << "\t\t" << std::setw(24) << "per op"
             << "\t\t" << std::setw(20) << "ops/ sec" << std::endl;
 
-  for (uint64_t i = 7; i <= 10; i++) {
-    uint64_t dim = 1ul << i;
+  for (size_t i = 7; i <= 10; i++) {
+    size_t dim = 1ul << i;
     ff_p254_t* mem = static_cast<ff_p254_t*>(
       sycl::malloc_device(dim * dim * sizeof(ff_p254_t), q));
 

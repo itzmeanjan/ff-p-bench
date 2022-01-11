@@ -6,8 +6,8 @@
 // Prints a row of benchmark table; as shown
 // https://github.com/itzmeanjan/ff_p_bench/blob/61838f7/benchmarks/254-bit-on-gpu.md#L32
 void
-print_benchmark_table_row(uint64_t dim,
-                          uint64_t itr_cnt,
+print_benchmark_table_row(size_t dim,
+                          size_t itr_cnt,
                           sycl::cl_ulong total_tm,
                           double tm_per_op)
 {
