@@ -8,7 +8,7 @@ PROG = run
 DEV_FLAGS = -D$(shell echo $(or $(DEVICE),default) | tr a-z A-Z)
 ON_THE_FLY_FLAGS = -DON_THE_FLY=$(shell echo $(or $(ON_THE_FLY),0))
 
-$(PROG): main.cpp include/bench_p64_ctbn.hpp include/bench_p254_ctbn.hpp include/types.hpp include/utils.hpp
+$(PROG): main.cpp include/bench_p64_ctbn.hpp include/bench_p254_ctbn.hpp include/utils.hpp
 	$(CXX) $(CXXFLAGS) $(SYCLFLAGS) $(DEV_FLAGS) $(ON_THE_FLY_FLAGS) $(INCLUDES) $< -o $@
 	./$@
 
