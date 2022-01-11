@@ -120,12 +120,11 @@ DEVICE=gpu ON_THE_FLY={0,1} make cuda
 
 For running benchmark in data parallel environment, I make use of 2D compute grid, where each cell of square matrix of dimension *N x N*, is one work-item. Each work-item computes some specific field arithmetic operation on given operands, M-many times. So in each round of benchmarking, when some specific arithmetic operator is chosen, for prime field **F_p**; that operation is concurrently run on chosen accelerator device `N x N x M` times. These benchmarks don't include any (host-to-device and vice-versa) data transfer. As suggested/ corrected by @niekbauman, I've modified kernels to make use of global memory and ensure that each work-item writes some accumulated data back to designated location in global memory at end of work-item's compute cycle, so that compiler doesn't end up optimizing too much that kernel actually doesn't do its desired job and I collect wrong metrics.
 
-### On CPU/ OpenCL
-
-- [64-bit Prime Field](benchmarks/64-bit-on-cpu.md)
-- [254-bit Prime Field](benchmarks/254-bit-on-cpu.md)
-
 ### On GPU/ CUDA
 
-- [64-bit Prime Field](benchmarks/64-bit-on-gpu.md)
-- [254-bit Prime Field](benchmarks/254-bit-on-gpu.md)
+`ON_THE_FLY` | Prime Field | Results
+--- | --- | ---
+0 | 64 -bit | [benchmarks/64-bit-on-gpu-no-otf.md](benchmarks/64-bit-on-gpu-no-otf.md)
+1 | 64 -bit | [benchmarks/64-bit-on-gpu-otf.md](benchmarks/64-bit-on-gpu-otf.md)
+0 | 254 -bit | [benchmarks/254-bit-on-gpu-no-otf.md](benchmarks/254-bit-on-gpu-no-otf.md)
+1 | 254 -bit | [benchmarks/254-bit-on-gpu-otf.md](benchmarks/254-bit-on-gpu-otf.md)
