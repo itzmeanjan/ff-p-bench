@@ -1,3 +1,7 @@
+> **Warning**
+
+**I've stopped maintaining this project !**
+
 # ff_p_bench
 
 Benchmarking Finite Field Arithmetics on Accelerators, using SYCL
